@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "vitest run --root ../.. --project node nodejs/data/src"
+    "build": "tsdown --config ./tsdown.config.ts"
   },
   "keywords": [],
   "author": "",
