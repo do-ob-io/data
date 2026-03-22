@@ -1,6 +1,6 @@
 import { pgTable, text, uuid, varchar } from 'drizzle-orm/pg-core';
 
-import { entityTable } from '../entity/entity-table.js';
+import { entityTable } from '@/schema/entity/entity-table.js';
 
 /**
  * Represents a postal address linked to a base entity.

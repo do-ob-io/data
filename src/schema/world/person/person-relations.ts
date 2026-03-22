@@ -1,8 +1,8 @@
 import { defineRelationsPart } from 'drizzle-orm/relations';
 
-import { addressTable } from '../address/address-table.js';
-import { entityTable } from '../entity/entity-table.js';
-import { organizationTable } from '../organization/organization-table.js';
+import { entityTable } from '@/schema/entity/entity-table.js';
+import { addressTable } from '@/schema/world/address/address-table.js';
+import { organizationTable } from '@/schema/world/organization/organization-table.js';
 
 import { personTable } from './person-table.js';
 

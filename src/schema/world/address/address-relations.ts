@@ -1,6 +1,6 @@
 import { defineRelationsPart } from 'drizzle-orm/relations';
 
-import { entityTable } from '../entity/entity-table.js';
+import { entityTable } from '@/schema/entity/entity-table.js';
 
 import { addressTable } from './address-table.js';
 

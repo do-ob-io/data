@@ -1,7 +1,7 @@
 import { date, pgTable, uuid, varchar } from 'drizzle-orm/pg-core';
 
-import { addressTable } from '../address/address-table.js';
-import { entityTable } from '../entity/entity-table.js';
+import { entityTable } from '@/schema/entity/entity-table.js';
+import { addressTable } from '@/schema/world/address/address-table.js';
 
 /**
  * Represents organization-specific details linked to a base entity.
