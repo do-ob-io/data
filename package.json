@@ -11,16 +11,16 @@
   "license": "ISC",
   "packageManager": "pnpm@10.32.1",
   "devDependencies": {
-    "@electric-sql/pglite": "catalog:data-latest",
-    "@types/pg": "catalog:data-latest",
+    "@electric-sql/pglite": "catalog:data",
+    "@types/pg": "catalog:data",
     "dotenv": "^17.3.1",
-    "drizzle-kit": "catalog:data-latest",
-    "tsdown": "catalog:vite-latest",
-    "vitest": "catalog:vite-latest"
+    "drizzle-kit": "catalog:data",
+    "tsdown": "catalog:vite",
+    "vitest": "catalog:vite"
   },
   "dependencies": {
-    "drizzle-orm": "catalog:data-latest",
-    "pg": "catalog:data-latest",
-    "zod": "catalog:data-latest"
+    "drizzle-orm": "catalog:data",
+    "pg": "catalog:data",
+    "zod": "catalog:data"
   }
 }
