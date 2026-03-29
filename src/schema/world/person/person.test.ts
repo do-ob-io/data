@@ -32,12 +32,6 @@ describe('person schema', () => {
     });
 
     // Assert
-    expect(result).toBeDefined();
-    expect(result?.name).toBe(personInsert.name);
-    expect(result?.given).toBe(personInsert.given);
-    expect(result?.family).toBe(personInsert.family);
-    expect(result?.email).toBe(personInsert.email);
-    expect(result?.job).toBe(personInsert.job);
-    expect(result?.nationality).toBe(personInsert.nationality);
+    expect(result).toMatchObject(personInsert);
   });
 });
