@@ -1,9 +1,19 @@
-import { pgTable, uuid, varchar, text, timestamp } from 'drizzle-orm/pg-core';
+import { timestamp, uuid, varchar, text } from 'drizzle-orm/pg-core';
 
 /**
- * Represents an abstract table with common crucial properties.
+ * Inheritable base column definitions shared across all entity tables.
+ *
+ * Spread these fields into a `pgTable` definition to inherit common entity columns.
+ *
+ * @example
+ * ```ts
+ * export const myTable = pgTable('my_table', {
+ *   ...baseFields,
+ *   // additional columns...
+ * });
+ * ```
  */
-export const baseTable = pgTable('base', {
+export const baseFields = {
   /**
    * The unique identifier for the entity.
    */
@@ -45,30 +55,4 @@ export const baseTable = pgTable('base', {
    * The date and time when the entity was last updated.
    */
   updatedAt: timestamp({ withTimezone: true }).notNull().defaultNow().$onUpdate(() => new Date()),
-
-  /**
-   * A reference to an optional image associated with the entity.
-   */
-  imageId: uuid(),
-
-  /**
-   * The unique identifier that references the owner of the entity.
-   *
-   * A null value indicates that the entity is owned by the system.
-   */
-  ownerId: uuid(),
-
-  /**
-   * The unique identifier that references the creator of the entity.
-   *
-   * A null value indicates that the entity was created by the system.
-   */
-  creatorId: uuid(),
-
-  /**
-   * The unique identifier that references the parent of the entity.
-   *
-   * A null value indicates that the entity does not have a parent or is a top-level entity.
-   */
-  parentId: uuid(),
-});
+};

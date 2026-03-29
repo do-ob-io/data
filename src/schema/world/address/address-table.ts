@@ -1,15 +1,12 @@
-import { pgTable, text, uuid, varchar } from 'drizzle-orm/pg-core';
+import { pgTable, text, varchar } from 'drizzle-orm/pg-core';
 
-import { baseTable } from '@/schema/base/base-table.js';
+import { baseFields } from '@/base/base-fields.js';
 
 /**
- * Represents a postal address linked to a base entity.
+ * Represents a postal address entity.
  */
 export const addressTable = pgTable('address', {
-  /**
-   * The unique identifier for the address, referencing the base entity.
-   */
-  id: uuid().primaryKey().references(() => baseTable.id).notNull(),
+  ...baseFields,
 
   /**
    * The primary street address for the location.

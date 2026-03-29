@@ -1,7 +1,5 @@
 import { getTableName } from 'drizzle-orm';
 
-import type { BaseInsert } from '@/schema/base/index.js';
-import { baseTable } from '@/schema/base/index.js';
 import { describe, test } from '@/vitest.fixture.js';
 
 import type { OrganizationInsert } from './organization-models.js';
@@ -15,15 +13,10 @@ describe('organization schema', () => {
 
   test('should be able to insert and retrieve an organization', async ({ db, expect }) => {
     // Arrange
-    const baseInsert: BaseInsert = {
-      name: 'Example Organization',
-      description: 'Test organization base.',
-      model: 'organization',
-    };
-    const insertedBase = await db.insert(baseTable).values(baseInsert).returning();
-
     const organizationInsert: OrganizationInsert = {
-      id: insertedBase[0].id,
+      name: 'Example Organization',
+      description: 'Test organization.',
+      model: 'organization',
       legal: 'Example Organization LLC',
       tax: 'TAX-123',
       email: 'hello@example.org',
@@ -33,25 +26,22 @@ describe('organization schema', () => {
     };
 
     // Act
-    await db.insert(organizationTable).values(organizationInsert).returning();
+    const inserted = await db.insert(organizationTable).values(organizationInsert).returning();
     const result = await db.query.organizationTable.findFirst({
       where: {
-        id: organizationInsert.id,
-      },
-      with: {
-        base: true,
+        id: inserted[0].id,
       },
     });
 
     // Assert
     expect(result).toBeDefined();
+    expect(result?.name).toBe(organizationInsert.name);
+    expect(result?.model).toBe(organizationInsert.model);
     expect(result?.legal).toBe(organizationInsert.legal);
     expect(result?.tax).toBe(organizationInsert.tax);
     expect(result?.email).toBe(organizationInsert.email);
     expect(result?.phone).toBe(organizationInsert.phone);
     expect(result?.url).toBe(organizationInsert.url);
     expect(result?.industry).toBe(organizationInsert.industry);
-    expect(result?.base?.id).toBe(organizationInsert.id);
-    expect(result?.base?.name).toBe(baseInsert.name);
   });
 });

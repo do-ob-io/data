@@ -1,17 +1,14 @@
 import { date, pgTable, text, uuid, varchar } from 'drizzle-orm/pg-core';
 
-import { baseTable } from '@/schema/base/base-table.js';
+import { baseFields } from '@/base/base-fields.js';
 import { addressTable } from '@/schema/world/address/address-table.js';
 import { organizationTable } from '@/schema/world/organization/organization-table.js';
 
 /**
- * Represents person-specific details linked to a base entity.
+ * Represents person-specific details.
  */
 export const personTable = pgTable('person', {
-  /**
-   * The unique identifier for the person, referencing the base entity.
-   */
-  id: uuid().primaryKey().references(() => baseTable.id).notNull(),
+  ...baseFields,
 
   /**
    * The given name of the person.

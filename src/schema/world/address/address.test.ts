@@ -1,7 +1,5 @@
-import { getTableName } from 'drizzle-orm';
+import { getTableName, eq } from 'drizzle-orm';
 
-import type { BaseInsert } from '@/schema/base/index.js';
-import { baseTable } from '@/schema/base/index.js';
 import { describe, test } from '@/vitest.fixture.js';
 
 import type { AddressInsert } from './address-models.js';
@@ -15,15 +13,10 @@ describe('address schema', () => {
 
   test('should be able to insert and retrieve an address', async ({ db, expect }) => {
     // Arrange
-    const baseInsert: BaseInsert = {
+    const addressInsert: AddressInsert = {
       name: 'Address Base',
       description: 'Test address base.',
       model: 'address',
-    };
-    const insertedBase = await db.insert(baseTable).values(baseInsert).returning();
-
-    const addressInsert: AddressInsert = {
-      id: insertedBase[0].id,
       street: '123 Example St',
       locality: 'Sampleville',
       region: 'State',
@@ -33,25 +26,18 @@ describe('address schema', () => {
     };
 
     // Act
-    await db.insert(addressTable).values(addressInsert).returning();
-    const result = await db.query.addressTable.findFirst({
-      where: {
-        id: addressInsert.id,
-      },
-      with: {
-        base: true,
-      },
-    });
+    const inserted = await db.insert(addressTable).values(addressInsert).returning();
+    const [ result ] = await db.select().from(addressTable).where(eq(addressTable.id, inserted[0].id));
 
     // Assert
     expect(result).toBeDefined();
+    expect(result?.name).toBe(addressInsert.name);
+    expect(result?.model).toBe(addressInsert.model);
     expect(result?.street).toBe(addressInsert.street);
     expect(result?.locality).toBe(addressInsert.locality);
     expect(result?.region).toBe(addressInsert.region);
     expect(result?.postal).toBe(addressInsert.postal);
     expect(result?.country).toBe(addressInsert.country);
     expect(result?.notes).toBe(addressInsert.notes);
-    expect(result?.base?.id).toBe(addressInsert.id);
-    expect(result?.base?.name).toBe(baseInsert.name);
   });
 });
