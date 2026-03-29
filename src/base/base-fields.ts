@@ -30,13 +30,6 @@ export const baseFields = {
   alias: varchar({ length: 256 }),
 
   /**
-   * A string that defines the data model this abstraction belongs to, used for polymorphic associations.
-   *
-   * This should match the name of the model that this entity represents, such as 'entity', 'user', 'project', etc.
-   */
-  model: varchar({ length: 256 }).notNull(),
-
-  /**
    * A brief description of the entity.
    */
   description: text(),

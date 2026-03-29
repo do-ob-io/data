@@ -16,7 +16,6 @@ describe('person schema', () => {
     const personInsert: PersonInsert = {
       name: 'Ada Lovelace',
       description: 'Test person entity.',
-      model: 'person',
       given: 'Ada',
       family: 'Lovelace',
       email: 'ada@example.com',
@@ -35,7 +34,6 @@ describe('person schema', () => {
     // Assert
     expect(result).toBeDefined();
     expect(result?.name).toBe(personInsert.name);
-    expect(result?.model).toBe(personInsert.model);
     expect(result?.given).toBe(personInsert.given);
     expect(result?.family).toBe(personInsert.family);
     expect(result?.email).toBe(personInsert.email);

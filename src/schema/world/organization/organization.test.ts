@@ -16,7 +16,6 @@ describe('organization schema', () => {
     const organizationInsert: OrganizationInsert = {
       name: 'Example Organization',
       description: 'Test organization.',
-      model: 'organization',
       legal: 'Example Organization LLC',
       tax: 'TAX-123',
       email: 'hello@example.org',
@@ -36,7 +35,6 @@ describe('organization schema', () => {
     // Assert
     expect(result).toBeDefined();
     expect(result?.name).toBe(organizationInsert.name);
-    expect(result?.model).toBe(organizationInsert.model);
     expect(result?.legal).toBe(organizationInsert.legal);
     expect(result?.tax).toBe(organizationInsert.tax);
     expect(result?.email).toBe(organizationInsert.email);

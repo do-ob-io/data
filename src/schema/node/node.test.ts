@@ -16,7 +16,6 @@ describe('node schema', () => {
     const nodeInsert: NodeInsert = {
       name: 'Test Node',
       description: 'This is a test node.',
-      model: 'node',
     };
 
     // Act
@@ -31,7 +30,6 @@ describe('node schema', () => {
     expect(result).toBeDefined();
     expect(result?.name).toBe(nodeInsert.name);
     expect(result?.description).toBe(nodeInsert.description);
-    expect(result?.model).toBe(nodeInsert.model);
   });
 
   test('should create a node with another node as its parent', async ({ db, expect }) => {
@@ -39,14 +37,12 @@ describe('node schema', () => {
     const parentNode: NodeInsert = {
       name: 'Parent Node',
       description: 'This is the parent node.',
-      model: 'node',
     };
     const insertedParent = await db.insert(nodeTable).values(parentNode).returning();
 
     const childNode: NodeInsert = {
       name: 'Child Node',
       description: 'This is the child node.',
-      model: 'node',
       parentId: insertedParent[0].id,
     };
 
@@ -74,7 +70,6 @@ describe('node schema', () => {
     expect(childResult).toBeDefined();
     expect(childResult?.name).toBe(childNode.name);
     expect(childResult?.description).toBe(childNode.description);
-    expect(childResult?.model).toBe(childNode.model);
     expect(childResult?.parentId).toBe(childNode.parentId);
     expect(childResult?.parent).toBeDefined();
     expect(childResult?.parent?.id).toBe(insertedParent[0].id);

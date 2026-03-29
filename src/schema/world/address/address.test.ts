@@ -16,7 +16,6 @@ describe('address schema', () => {
     const addressInsert: AddressInsert = {
       name: 'Address Base',
       description: 'Test address base.',
-      model: 'address',
       street: '123 Example St',
       locality: 'Sampleville',
       region: 'State',
@@ -32,7 +31,6 @@ describe('address schema', () => {
     // Assert
     expect(result).toBeDefined();
     expect(result?.name).toBe(addressInsert.name);
-    expect(result?.model).toBe(addressInsert.model);
     expect(result?.street).toBe(addressInsert.street);
     expect(result?.locality).toBe(addressInsert.locality);
     expect(result?.region).toBe(addressInsert.region);
