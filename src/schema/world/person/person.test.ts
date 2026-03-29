@@ -8,7 +8,7 @@ import { personTable } from './person-table.js';
 describe('person schema', () => {
 
   test('should have the correct table name', async ({ expect }) => {
-    expect(getTableName(personTable)).toBe('person');
+    expect(getTableName(personTable)).toBe('world_person');
   });
 
   test('should be able to insert and retrieve a person', async ({ db, expect }) => {

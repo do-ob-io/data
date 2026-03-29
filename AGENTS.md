@@ -17,7 +17,17 @@ Typed data access layer for the do-ob workspace, providing Drizzle ORM schemas, 
   - `base/` — Abstract base fields used for field inheritance (not a table)
   - `node/` — Node table built on base fields with relationship columns
   - `world/` — Real-world data types (person, organization, address, etc.)
-  - `account/` — Account-related data for identity and authn/authz _(planned)_
+  - `auth/` — Authentication and authorization data for use with `better-auth`
+    - `user/` — Authenticated user identity
+    - `session/` — Active user sessions with token and expiry
+    - `account/` — Linked provider accounts (OAuth, credential, etc.)
+    - `verification/` — Short-lived tokens for email verification and password reset
+    - `two-factor/` — TOTP secrets and backup codes (two-factor plugin)
+    - `organization/` — Multi-tenant organization workspaces (org plugin)
+    - `member/` — User membership within an organization (org plugin)
+    - `invitation/` — Pending invitations to organizations or teams (org plugin)
+    - `team/` — Sub-groups within an organization (org plugin with teams)
+    - `team-member/` — User membership within a team (org plugin with teams)
 - `src/relations.ts` — Aggregate export of all schema relations
 - `src/schema.ts` — Aggregate export of schema tables
 - `src/index.ts` — Package entrypoint
@@ -31,6 +41,7 @@ Typed data access layer for the do-ob workspace, providing Drizzle ORM schemas, 
 - Relations are registered in `src/relations.ts` and imported from `<name>-relations.ts`.
 - `base` provides inheritable fields via `baseFields` — spread into tables rather than inheriting via FK.
 - Group schemas by domain under `src/schema/<group>/`; each group has its own `schema.ts` that aggregates its tables.
+- Each group has a `settings.ts` that exports `TABLE_PREFIX` — used only in the `pgTable` name string (e.g., `` `${TABLE_PREFIX}_user` ``) to namespace DB table names and avoid collisions.
 - Prefer single-word property names when ambiguity is low.
 
 ## Technical Stack

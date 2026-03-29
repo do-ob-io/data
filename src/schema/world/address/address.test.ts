@@ -8,7 +8,7 @@ import { addressTable } from './address-table.js';
 describe('address schema', () => {
 
   test('should have the correct table name', async ({ expect }) => {
-    expect(getTableName(addressTable)).toBe('address');
+    expect(getTableName(addressTable)).toBe('world_address');
   });
 
   test('should be able to insert and retrieve an address', async ({ db, expect }) => {

@@ -2,7 +2,6 @@
   "name": "data",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "scripts": {
     "build": "tsdown --config ./tsdown.config.ts"
   },
@@ -22,5 +21,9 @@
     "drizzle-orm": "catalog:data",
     "pg": "catalog:data",
     "zod": "catalog:data"
+  },
+  "exports": {
+    ".": "./dist/index.mjs",
+    "./package.json": "./package.json"
   }
 }

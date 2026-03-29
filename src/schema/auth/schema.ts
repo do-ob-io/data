@@ -1,0 +1,10 @@
+export { userTable as authUserTable } from './user/user-table.js';
+export { sessionTable as authSessionTable } from './session/session-table.js';
+export { accountTable as authAccountTable } from './account/account-table.js';
+export { verificationTable as authVerificationTable } from './verification/verification-table.js';
+export { twoFactorTable as authTwoFactorTable } from './two-factor/two-factor-table.js';
+export { organizationTable as authOrganizationTable } from './organization/organization-table.js';
+export { memberTable as authMemberTable } from './member/member-table.js';
+export { invitationTable as authInvitationTable } from './invitation/invitation-table.js';
+export { teamTable as authTeamTable } from './team/team-table.js';
+export { teamMemberTable as authTeamMemberTable } from './team-member/team-member-table.js';

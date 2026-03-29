@@ -1,4 +1,4 @@
-import { getTableName } from 'drizzle-orm';
+import { eq, getTableName } from 'drizzle-orm';
 
 import { describe, test } from '@/vitest.fixture.js';
 
@@ -8,7 +8,7 @@ import { organizationTable } from './organization-table.js';
 describe('organization schema', () => {
 
   test('should have the correct table name', async ({ expect }) => {
-    expect(getTableName(organizationTable)).toBe('organization');
+    expect(getTableName(organizationTable)).toBe('world_organization');
   });
 
   test('should be able to insert and retrieve an organization', async ({ db, expect }) => {
@@ -26,11 +26,7 @@ describe('organization schema', () => {
 
     // Act
     const inserted = await db.insert(organizationTable).values(organizationInsert).returning();
-    const result = await db.query.organizationTable.findFirst({
-      where: {
-        id: inserted[0].id,
-      },
-    });
+    const [ result ] = await db.select().from(organizationTable).where(eq(organizationTable.id, inserted[0].id));
 
     // Assert
     expect(result).toBeDefined();

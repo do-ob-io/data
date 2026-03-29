@@ -1,4 +1,4 @@
-import { drizzle } from 'drizzle-orm/pglite';
+import { drizzle, type PgliteDatabase } from 'drizzle-orm/pglite';
 
 // import relations from './relations.js';
 // import * as schema from './schema.js';
@@ -6,4 +6,4 @@ import { drizzle } from 'drizzle-orm/pglite';
 /**
  * An in-memory PostgreSQL database instance powered by PGlite.
  */
-export const db = drizzle('memory://');
+export const db: PgliteDatabase = drizzle('memory://');
