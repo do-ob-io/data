@@ -3,7 +3,7 @@ import { pgTable, uuid, varchar, text, timestamp } from 'drizzle-orm/pg-core';
 /**
  * Represents an abstract table with common crucial properties.
  */
-export const entityTable = pgTable('entity', {
+export const baseTable = pgTable('base', {
   /**
    * The unique identifier for the entity.
    */

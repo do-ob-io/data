@@ -1,6 +1,6 @@
 import { defineRelationsPart } from 'drizzle-orm/relations';
 
-import { entityTable } from '@/schema/entity/entity-table.js';
+import { baseTable } from '@/schema/base/base-table.js';
 import { addressTable } from '@/schema/world/address/address-table.js';
 import { organizationTable } from '@/schema/world/organization/organization-table.js';
 
@@ -9,12 +9,12 @@ import { personTable } from './person-table.js';
 /**
  * Relationships for the person table.
  */
-export const personRelations = defineRelationsPart({ personTable, addressTable, entityTable, organizationTable }, (r) => ({
+export const personRelations = defineRelationsPart({ personTable, addressTable, baseTable, organizationTable }, (r) => ({
   personTable: {
-    entity: r.one.entityTable({
+    base: r.one.baseTable({
       from: r.personTable.id,
-      to: r.entityTable.id,
-      alias: 'person_entity',
+      to: r.baseTable.id,
+      alias: 'person_base',
     }),
     organization: r.one.organizationTable({
       from: r.personTable.organizationId,

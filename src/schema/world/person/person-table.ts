@@ -1,6 +1,6 @@
 import { date, pgTable, text, uuid, varchar } from 'drizzle-orm/pg-core';
 
-import { entityTable } from '@/schema/entity/entity-table.js';
+import { baseTable } from '@/schema/base/base-table.js';
 import { addressTable } from '@/schema/world/address/address-table.js';
 import { organizationTable } from '@/schema/world/organization/organization-table.js';
 
@@ -11,7 +11,7 @@ export const personTable = pgTable('person', {
   /**
    * The unique identifier for the person, referencing the base entity.
    */
-  id: uuid().primaryKey().references(() => entityTable.id).notNull(),
+  id: uuid().primaryKey().references(() => baseTable.id).notNull(),
 
   /**
    * The given name of the person.

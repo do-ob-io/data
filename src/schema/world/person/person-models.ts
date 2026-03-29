@@ -1,17 +1,17 @@
 import { createInsertSchema, createSelectSchema, createUpdateSchema } from 'drizzle-orm/zod';
 import type { z } from 'zod';
 
-import { entityInsertSchema, entitySelectSchema, entityUpdateSchema } from '@/schema/entity/entity-utils.js';
+import { baseInsertSchema, baseSelectSchema, baseUpdateSchema } from '@/schema/base/base-utils.js';
 
 import { personTable } from './person-table.js';
 
-export const personModel = entitySelectSchema(createSelectSchema(personTable));
+export const personModel = baseSelectSchema(createSelectSchema(personTable));
 
-export const personInsertModel = entityInsertSchema(createInsertSchema(personTable, {
+export const personInsertModel = baseInsertSchema(createInsertSchema(personTable, {
   bio: (schema) => schema.trim().max(4096, 'Bio must not exceed 4096 characters').optional(),
 }));
 
-export const personUpdateModel = entityUpdateSchema(createUpdateSchema(personTable, {
+export const personUpdateModel = baseUpdateSchema(createUpdateSchema(personTable, {
   bio: (schema) => schema.trim().max(4096, 'Bio must not exceed 4096 characters').optional(),
 }));
 

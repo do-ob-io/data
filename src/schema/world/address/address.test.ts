@@ -1,7 +1,7 @@
 import { getTableName } from 'drizzle-orm';
 
-import type { EntityInsert } from '@/schema/entity/index.js';
-import { entityTable } from '@/schema/entity/index.js';
+import type { BaseInsert } from '@/schema/base/index.js';
+import { baseTable } from '@/schema/base/index.js';
 import { describe, test } from '@/vitest.fixture.js';
 
 import type { AddressInsert } from './address-models.js';
@@ -15,15 +15,15 @@ describe('address schema', () => {
 
   test('should be able to insert and retrieve an address', async ({ db, expect }) => {
     // Arrange
-    const entityInsert: EntityInsert = {
-      name: 'Address Entity',
-      description: 'Test address entity.',
+    const baseInsert: BaseInsert = {
+      name: 'Address Base',
+      description: 'Test address base.',
       model: 'address',
     };
-    const insertedEntity = await db.insert(entityTable).values(entityInsert).returning();
+    const insertedBase = await db.insert(baseTable).values(baseInsert).returning();
 
     const addressInsert: AddressInsert = {
-      id: insertedEntity[0].id,
+      id: insertedBase[0].id,
       street: '123 Example St',
       locality: 'Sampleville',
       region: 'State',
@@ -39,7 +39,7 @@ describe('address schema', () => {
         id: addressInsert.id,
       },
       with: {
-        entity: true,
+        base: true,
       },
     });
 
@@ -51,7 +51,7 @@ describe('address schema', () => {
     expect(result?.postal).toBe(addressInsert.postal);
     expect(result?.country).toBe(addressInsert.country);
     expect(result?.notes).toBe(addressInsert.notes);
-    expect(result?.entity?.id).toBe(addressInsert.id);
-    expect(result?.entity?.name).toBe(entityInsert.name);
+    expect(result?.base?.id).toBe(addressInsert.id);
+    expect(result?.base?.name).toBe(baseInsert.name);
   });
 });

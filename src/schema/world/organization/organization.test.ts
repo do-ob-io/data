@@ -1,7 +1,7 @@
 import { getTableName } from 'drizzle-orm';
 
-import type { EntityInsert } from '@/schema/entity/index.js';
-import { entityTable } from '@/schema/entity/index.js';
+import type { BaseInsert } from '@/schema/base/index.js';
+import { baseTable } from '@/schema/base/index.js';
 import { describe, test } from '@/vitest.fixture.js';
 
 import type { OrganizationInsert } from './organization-models.js';
@@ -15,15 +15,15 @@ describe('organization schema', () => {
 
   test('should be able to insert and retrieve an organization', async ({ db, expect }) => {
     // Arrange
-    const entityInsert: EntityInsert = {
+    const baseInsert: BaseInsert = {
       name: 'Example Organization',
-      description: 'Test organization entity.',
+      description: 'Test organization base.',
       model: 'organization',
     };
-    const insertedEntity = await db.insert(entityTable).values(entityInsert).returning();
+    const insertedBase = await db.insert(baseTable).values(baseInsert).returning();
 
     const organizationInsert: OrganizationInsert = {
-      id: insertedEntity[0].id,
+      id: insertedBase[0].id,
       legal: 'Example Organization LLC',
       tax: 'TAX-123',
       email: 'hello@example.org',
@@ -39,7 +39,7 @@ describe('organization schema', () => {
         id: organizationInsert.id,
       },
       with: {
-        entity: true,
+        base: true,
       },
     });
 
@@ -51,7 +51,7 @@ describe('organization schema', () => {
     expect(result?.phone).toBe(organizationInsert.phone);
     expect(result?.url).toBe(organizationInsert.url);
     expect(result?.industry).toBe(organizationInsert.industry);
-    expect(result?.entity?.id).toBe(organizationInsert.id);
-    expect(result?.entity?.name).toBe(entityInsert.name);
+    expect(result?.base?.id).toBe(organizationInsert.id);
+    expect(result?.base?.name).toBe(baseInsert.name);
   });
 });

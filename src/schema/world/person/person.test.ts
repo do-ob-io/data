@@ -1,7 +1,7 @@
 import { getTableName } from 'drizzle-orm';
 
-import type { EntityInsert } from '@/schema/entity/index.js';
-import { entityTable } from '@/schema/entity/index.js';
+import type { BaseInsert } from '@/schema/base/index.js';
+import { baseTable } from '@/schema/base/index.js';
 import { describe, test } from '@/vitest.fixture.js';
 
 import type { PersonInsert } from './person-models.js';
@@ -37,7 +37,7 @@ describe('person schema', () => {
       ...personValues
     } = personInsert;
 
-    const entityInsert: EntityInsert = {
+    const baseInsert: BaseInsert = {
       name,
       model: 'person',
       alias,
@@ -50,20 +50,20 @@ describe('person schema', () => {
     };
 
     // Act
-    const insertedEntity = await db.transaction(async (tx) => {
-      const insertedEntity = await tx.insert(entityTable).values(entityInsert).returning();
+    const insertedBase = await db.transaction(async (tx) => {
+      const insertedBase = await tx.insert(baseTable).values(baseInsert).returning();
       return tx.insert(personTable).values({
-        id: insertedEntity[0].id,
+        id: insertedBase[0].id,
         ...personValues,
       }).returning();
     });
 
     const result = await db.query.personTable.findFirst({
       where: {
-        id: insertedEntity[0].id,
+        id: insertedBase[0].id,
       },
       with: {
-        entity: true,
+        base: true,
       },
     });
 
@@ -74,7 +74,7 @@ describe('person schema', () => {
     expect(result?.email).toBe(personInsert.email);
     expect(result?.job).toBe(personInsert.job);
     expect(result?.nationality).toBe(personInsert.nationality);
-    expect(result?.entity?.id).toBe(insertedEntity[0].id);
-    expect(result?.entity?.name).toBe(entityInsert.name);
+    expect(result?.base?.id).toBe(insertedBase[0].id);
+    expect(result?.base?.name).toBe(baseInsert.name);
   });
 });
