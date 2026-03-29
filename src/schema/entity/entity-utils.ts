@@ -7,9 +7,9 @@ export function entitySelectSchema<Z extends z.ZodObject>(schema: Z) {
 }
 
 export function entityInsertSchema<Z extends z.ZodObject>(schema: Z) {
-  return schema.omit({ id: true }).extend(entityInsertModel.shape) as z.ZodObject<Omit<Z['shape'], 'id'> & typeof entityInsertModel.shape>;
+  return schema.omit({ id: true }).extend(entityInsertModel.omit({ model: true }).shape) as z.ZodObject<Omit<Z['shape'], 'id'> & Omit<typeof entityInsertModel.shape, 'model'>>;
 }
 
 export function entityUpdateSchema<Z extends z.ZodObject>(schema: Z) {
-  return schema.omit({ id: true }).extend(entityUpdateModel.shape) as z.ZodObject<Omit<Z['shape'], 'id'> & typeof entityUpdateModel.shape>;
+  return schema.omit({ id: true }).extend(entityUpdateModel.omit({ model: true }).shape) as z.ZodObject<Omit<Z['shape'], 'id'> & Omit<typeof entityUpdateModel.shape, 'model'>>;
 }

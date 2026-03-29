@@ -18,7 +18,6 @@ describe('person schema', () => {
     const personInsert: PersonInsert = {
       name: 'Ada Lovelace',
       description: 'Test person entity.',
-      model: 'person',
       given: 'Ada',
       family: 'Lovelace',
       email: 'ada@example.com',
@@ -29,7 +28,6 @@ describe('person schema', () => {
     const {
       name,
       alias,
-      model,
       description,
       url,
       imageId,
@@ -41,8 +39,8 @@ describe('person schema', () => {
 
     const entityInsert: EntityInsert = {
       name,
+      model: 'person',
       alias,
-      model,
       description,
       url,
       imageId,
