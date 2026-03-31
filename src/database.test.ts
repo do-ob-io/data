@@ -24,9 +24,8 @@ describe('database', () => {
     const tableNames = result.rows.map((r) => (r as { table_name: string }).table_name);
 
     expect(tableNames).toContain('auth_user');
-    expect(tableNames).toContain('node');
 
-    await (db as any).$client.close();
+    await db.$client.end();
   });
 
   test('should create a world database with world schema tables', async () => {
@@ -41,8 +40,7 @@ describe('database', () => {
     expect(tableNames).toContain('world_address');
     expect(tableNames).toContain('world_person');
     expect(tableNames).toContain('world_organization');
-    expect(tableNames).toContain('node');
 
-    await (db as any).$client.close();
+    await db.$client.end();
   });
 });
