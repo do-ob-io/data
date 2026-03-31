@@ -13,6 +13,7 @@ export const test = baseTest.extend(
   { scope: 'file' },
   async ({}, { onCleanup }) => {
     const client = new PGlite();
+    await client.waitReady;
     const db = drizzle({ client, schema, relations });
 
     const pushed = await pushSchema(schema, db as any);
