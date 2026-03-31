@@ -15,7 +15,7 @@ import { userTable } from './user/user-table.js';
  * `r.many` is paired with its reverse `r.one` (with `from`/`to`) in the same
  * `defineRelationsPart` call, as required by Drizzle ORM v2 beta.
  */
-export const authRelations = defineRelationsPart(
+export default defineRelationsPart(
   {
     userTable,
     sessionTable,
