@@ -19,7 +19,7 @@ export const test = baseTest.extend(
     const pushed = await pushSchema(schema, db as any);
     await pushed.apply();
 
-    onCleanup(db.$client.close);
+    onCleanup(() => db.$client.close());
 
     return db;
   },
