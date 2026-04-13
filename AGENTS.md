@@ -5,8 +5,8 @@ Typed data access layer for the do-ob workspace, providing Drizzle ORM schemas, 
 ## Quality Instructions
 
 - **Typecheck**: `tsc --noEmit` — Run from project directory
-- **Lint**: `eslint --fix .` — Run from project directory
-- **Test**: `vitest run` — Run from workspace root directory
+- **Lint**: `pnpm lint` — Run from project directory
+- **Test**: `pnpm test` — Run from workspace root directory
 - **Build**: `pnpm build` — Run from project directory
 
 ## Structure
