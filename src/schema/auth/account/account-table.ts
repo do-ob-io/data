@@ -1,12 +1,12 @@
-import { pgTable } from 'drizzle-orm/pg-core';
-
-import { TABLE_PREFIX } from '../settings.js';
+import { index, pgTable } from 'drizzle-orm/pg-core';
 
 import { accountFields } from './account-fields.js';
 
 /**
  * Represents a linked authentication provider account for a user.
  */
-export const accountTable = pgTable(`${TABLE_PREFIX}_account`, {
-  ...accountFields,
-});
+export const accountTable = pgTable(
+  'account',
+  { ...accountFields },
+  (table) => [ index('account_userId_idx').on(table.userId) ],
+);

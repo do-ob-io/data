@@ -10,7 +10,7 @@ import { sessionTable } from './session-table.js';
 describe('auth session schema', () => {
 
   test('should have the correct table name', async ({ expect }) => {
-    expect(getTableName(sessionTable)).toBe('auth_session');
+    expect(getTableName(sessionTable)).toBe('session');
   });
 
   test('should be able to insert and retrieve a session', async ({ db, expect }) => {

@@ -1,11 +1,10 @@
 import { accountTable as authAccountTable } from './account/account-table.js';
-import { invitationTable as authInvitationTable } from './invitation/invitation-table.js';
-import { memberTable as authMemberTable } from './member/member-table.js';
-import { organizationTable as authOrganizationTable } from './organization/organization-table.js';
+import { jwksTable as authJwksTable } from './jwks/jwks-table.js';
+import { oauthAccessTokenTable as authOauthAccessTokenTable } from './oauth-access-token/oauth-access-token-table.js';
+import { oauthClientTable as authOauthClientTable } from './oauth-client/oauth-client-table.js';
+import { oauthConsentTable as authOauthConsentTable } from './oauth-consent/oauth-consent-table.js';
+import { oauthRefreshTokenTable as authOauthRefreshTokenTable } from './oauth-refresh-token/oauth-refresh-token-table.js';
 import { sessionTable as authSessionTable } from './session/session-table.js';
-import { teamTable as authTeamTable } from './team/team-table.js';
-import { teamMemberTable as authTeamMemberTable } from './team-member/team-member-table.js';
-import { twoFactorTable as authTwoFactorTable } from './two-factor/two-factor-table.js';
 import { userTable as authUserTable } from './user/user-table.js';
 import { verificationTable as authVerificationTable } from './verification/verification-table.js';
 
@@ -14,10 +13,9 @@ export default {
   authSessionTable,
   authAccountTable,
   authVerificationTable,
-  authTwoFactorTable,
-  authOrganizationTable,
-  authMemberTable,
-  authInvitationTable,
-  authTeamTable,
-  authTeamMemberTable,
+  authJwksTable,
+  authOauthClientTable,
+  authOauthRefreshTokenTable,
+  authOauthAccessTokenTable,
+  authOauthConsentTable,
 };

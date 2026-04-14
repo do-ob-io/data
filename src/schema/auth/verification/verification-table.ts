@@ -1,12 +1,12 @@
-import { pgTable } from 'drizzle-orm/pg-core';
-
-import { TABLE_PREFIX } from '../settings.js';
+import { index, pgTable } from 'drizzle-orm/pg-core';
 
 import { verificationFields } from './verification-fields.js';
 
 /**
  * Stores short-lived verification tokens (e.g. email verification, password reset).
  */
-export const verificationTable = pgTable(`${TABLE_PREFIX}_verification`, {
-  ...verificationFields,
-});
+export const verificationTable = pgTable(
+  'verification',
+  { ...verificationFields },
+  (table) => [ index('verification_identifier_idx').on(table.identifier) ],
+);

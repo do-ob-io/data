@@ -1,12 +1,12 @@
-import { pgTable } from 'drizzle-orm/pg-core';
-
-import { TABLE_PREFIX } from '../settings.js';
+import { index, pgTable } from 'drizzle-orm/pg-core';
 
 import { sessionFields } from './session-fields.js';
 
 /**
  * Represents an authenticated user session.
  */
-export const sessionTable = pgTable(`${TABLE_PREFIX}_session`, {
-  ...sessionFields,
-});
+export const sessionTable = pgTable(
+  'session',
+  { ...sessionFields },
+  (table) => [ index('session_userId_idx').on(table.userId) ],
+);

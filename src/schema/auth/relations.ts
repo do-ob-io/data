@@ -1,14 +1,14 @@
 import { defineRelationsPart } from 'drizzle-orm/relations';
 
 import { accountTable } from './account/account-table.js';
-import { invitationTable } from './invitation/invitation-table.js';
-import { memberTable } from './member/member-table.js';
-import { organizationTable } from './organization/organization-table.js';
+import { jwksTable } from './jwks/jwks-table.js';
+import { oauthAccessTokenTable } from './oauth-access-token/oauth-access-token-table.js';
+import { oauthClientTable } from './oauth-client/oauth-client-table.js';
+import { oauthConsentTable } from './oauth-consent/oauth-consent-table.js';
+import { oauthRefreshTokenTable } from './oauth-refresh-token/oauth-refresh-token-table.js';
 import { sessionTable } from './session/session-table.js';
-import { teamTable } from './team/team-table.js';
-import { teamMemberTable } from './team-member/team-member-table.js';
-import { twoFactorTable } from './two-factor/two-factor-table.js';
 import { userTable } from './user/user-table.js';
+import { verificationTable } from './verification/verification-table.js';
 
 /**
  * All auth schema relationships defined in a single part so that every
@@ -20,21 +20,21 @@ export default defineRelationsPart(
     userTable,
     sessionTable,
     accountTable,
-    twoFactorTable,
-    organizationTable,
-    memberTable,
-    invitationTable,
-    teamTable,
-    teamMemberTable,
+    verificationTable,
+    jwksTable,
+    oauthClientTable,
+    oauthRefreshTokenTable,
+    oauthAccessTokenTable,
+    oauthConsentTable,
   },
   (r) => ({
     userTable: {
       sessions: r.many.sessionTable({ alias: 'session_user' }),
       accounts: r.many.accountTable({ alias: 'account_user' }),
-      twoFactor: r.one.twoFactorTable({ alias: 'twoFactor_user', optional: true }),
-      members: r.many.memberTable({ alias: 'member_user' }),
-      teamMembers: r.many.teamMemberTable({ alias: 'teamMember_user' }),
-      invitations: r.many.invitationTable({ alias: 'invitation_inviter' }),
+      oauthClients: r.many.oauthClientTable({ alias: 'oauthClient_user' }),
+      oauthRefreshTokens: r.many.oauthRefreshTokenTable({ alias: 'oauthRefreshToken_user' }),
+      oauthAccessTokens: r.many.oauthAccessTokenTable({ alias: 'oauthAccessToken_user' }),
+      oauthConsents: r.many.oauthConsentTable({ alias: 'oauthConsent_user' }),
     },
     sessionTable: {
       user: r.one.userTable({
@@ -42,18 +42,8 @@ export default defineRelationsPart(
         to: r.userTable.id,
         alias: 'session_user',
       }),
-      activeOrganization: r.one.organizationTable({
-        from: r.sessionTable.activeOrganizationId,
-        to: r.organizationTable.id,
-        optional: true,
-        alias: 'session_active_org',
-      }),
-      activeTeam: r.one.teamTable({
-        from: r.sessionTable.activeTeamId,
-        to: r.teamTable.id,
-        optional: true,
-        alias: 'session_active_team',
-      }),
+      oauthRefreshTokens: r.many.oauthRefreshTokenTable({ alias: 'oauthRefreshToken_session' }),
+      oauthAccessTokens: r.many.oauthAccessTokenTable({ alias: 'oauthAccessToken_session' }),
     },
     accountTable: {
       user: r.one.userTable({
@@ -62,69 +52,72 @@ export default defineRelationsPart(
         alias: 'account_user',
       }),
     },
-    twoFactorTable: {
+    oauthClientTable: {
       user: r.one.userTable({
-        from: r.twoFactorTable.userId,
+        from: r.oauthClientTable.userId,
         to: r.userTable.id,
-        alias: 'twoFactor_user',
-      }),
-    },
-    organizationTable: {
-      members: r.many.memberTable({ alias: 'member_org' }),
-      invitations: r.many.invitationTable({ alias: 'invitation_org' }),
-      teams: r.many.teamTable({ alias: 'team_org' }),
-      activeSessions: r.many.sessionTable({ alias: 'session_active_org' }),
-    },
-    memberTable: {
-      user: r.one.userTable({
-        from: r.memberTable.userId,
-        to: r.userTable.id,
-        alias: 'member_user',
-      }),
-      organization: r.one.organizationTable({
-        from: r.memberTable.organizationId,
-        to: r.organizationTable.id,
-        alias: 'member_org',
-      }),
-    },
-    invitationTable: {
-      inviter: r.one.userTable({
-        from: r.invitationTable.inviterId,
-        to: r.userTable.id,
-        alias: 'invitation_inviter',
-      }),
-      organization: r.one.organizationTable({
-        from: r.invitationTable.organizationId,
-        to: r.organizationTable.id,
-        alias: 'invitation_org',
-      }),
-      team: r.one.teamTable({
-        from: r.invitationTable.teamId,
-        to: r.teamTable.id,
         optional: true,
-        alias: 'invitation_team',
+        alias: 'oauthClient_user',
       }),
+      oauthRefreshTokens: r.many.oauthRefreshTokenTable({ alias: 'oauthRefreshToken_client' }),
+      oauthAccessTokens: r.many.oauthAccessTokenTable({ alias: 'oauthAccessToken_client' }),
+      oauthConsents: r.many.oauthConsentTable({ alias: 'oauthConsent_client' }),
     },
-    teamTable: {
-      organization: r.one.organizationTable({
-        from: r.teamTable.organizationId,
-        to: r.organizationTable.id,
-        alias: 'team_org',
+    oauthRefreshTokenTable: {
+      oauthClient: r.one.oauthClientTable({
+        from: r.oauthRefreshTokenTable.clientId,
+        to: r.oauthClientTable.clientId,
+        alias: 'oauthRefreshToken_client',
       }),
-      members: r.many.teamMemberTable({ alias: 'teamMember_team' }),
-      invitations: r.many.invitationTable({ alias: 'invitation_team' }),
-      activeSessions: r.many.sessionTable({ alias: 'session_active_team' }),
-    },
-    teamMemberTable: {
-      team: r.one.teamTable({
-        from: r.teamMemberTable.teamId,
-        to: r.teamTable.id,
-        alias: 'teamMember_team',
+      session: r.one.sessionTable({
+        from: r.oauthRefreshTokenTable.sessionId,
+        to: r.sessionTable.id,
+        optional: true,
+        alias: 'oauthRefreshToken_session',
       }),
       user: r.one.userTable({
-        from: r.teamMemberTable.userId,
+        from: r.oauthRefreshTokenTable.userId,
         to: r.userTable.id,
-        alias: 'teamMember_user',
+        alias: 'oauthRefreshToken_user',
+      }),
+      oauthAccessTokens: r.many.oauthAccessTokenTable({ alias: 'oauthAccessToken_refresh' }),
+    },
+    oauthAccessTokenTable: {
+      oauthClient: r.one.oauthClientTable({
+        from: r.oauthAccessTokenTable.clientId,
+        to: r.oauthClientTable.clientId,
+        alias: 'oauthAccessToken_client',
+      }),
+      session: r.one.sessionTable({
+        from: r.oauthAccessTokenTable.sessionId,
+        to: r.sessionTable.id,
+        optional: true,
+        alias: 'oauthAccessToken_session',
+      }),
+      user: r.one.userTable({
+        from: r.oauthAccessTokenTable.userId,
+        to: r.userTable.id,
+        optional: true,
+        alias: 'oauthAccessToken_user',
+      }),
+      oauthRefreshToken: r.one.oauthRefreshTokenTable({
+        from: r.oauthAccessTokenTable.refreshId,
+        to: r.oauthRefreshTokenTable.id,
+        optional: true,
+        alias: 'oauthAccessToken_refresh',
+      }),
+    },
+    oauthConsentTable: {
+      oauthClient: r.one.oauthClientTable({
+        from: r.oauthConsentTable.clientId,
+        to: r.oauthClientTable.clientId,
+        alias: 'oauthConsent_client',
+      }),
+      user: r.one.userTable({
+        from: r.oauthConsentTable.userId,
+        to: r.userTable.id,
+        optional: true,
+        alias: 'oauthConsent_user',
       }),
     },
   }),

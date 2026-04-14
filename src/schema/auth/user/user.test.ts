@@ -8,7 +8,7 @@ import { userTable } from './user-table.js';
 describe('auth user schema', () => {
 
   test('should have the correct table name', async ({ expect }) => {
-    expect(getTableName(userTable)).toBe('auth_user');
+    expect(getTableName(userTable)).toBe('user');
   });
 
   test('should be able to insert and retrieve a user', async ({ db, expect }) => {

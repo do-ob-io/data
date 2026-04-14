@@ -8,7 +8,7 @@ import { verificationTable } from './verification-table.js';
 describe('auth verification schema', () => {
 
   test('should have the correct table name', async ({ expect }) => {
-    expect(getTableName(verificationTable)).toBe('auth_verification');
+    expect(getTableName(verificationTable)).toBe('verification');
   });
 
   test('should be able to insert and retrieve a verification token', async ({ db, expect }) => {

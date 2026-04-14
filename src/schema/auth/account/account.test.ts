@@ -10,7 +10,7 @@ import { accountTable } from './account-table.js';
 describe('auth account schema', () => {
 
   test('should have the correct table name', async ({ expect }) => {
-    expect(getTableName(accountTable)).toBe('auth_account');
+    expect(getTableName(accountTable)).toBe('account');
   });
 
   test('should be able to insert and retrieve an account', async ({ db, expect }) => {
