@@ -3,9 +3,9 @@ import type { NodePgDatabase } from 'drizzle-orm/node-postgres';
 import type { Pool } from 'pg';
 
 import type authRelations from './schema/auth/relations.js';
-import type authSchema from './schema/auth/schema.js';
+import type * as authSchema from './schema/auth/schema.js';
 import type worldRelations from './schema/world/relations.js';
-import type worldSchema from './schema/world/schema.js';
+import type * as worldSchema from './schema/world/schema.js';
 import { SETTINGS } from './settings.js';
 
 /**
@@ -49,6 +49,16 @@ export interface DatabaseArgs<T extends keyof DatabaseTypeMap = keyof DatabaseTy
    * The type of database to initialize and pull the schema and relations from.
    */
   type: T;
+
+  /**
+   * Development configurations
+   */
+  dev?: {
+    /**
+     * Database file path for development. If not provided, defaults to `${os.tmpdir()}/data.db`.
+     */
+    file?: string;
+  };
 }
 
 /**
@@ -59,7 +69,7 @@ export interface DatabaseArgs<T extends keyof DatabaseTypeMap = keyof DatabaseTy
  */
 async function loadSchemaAndRelations(type: keyof DatabaseTypeMap): Promise<{ schema: Record<string, any>; relations: Record<string, any> }> {
   if (type === 'auth') {
-    const { default: authSchema } = await import('./schema/auth/schema.js');
+    const authSchema = await import('./schema/auth/schema.js');
     const { default: authRelations } = await import('./schema/auth/relations.js');
 
     return {
@@ -68,7 +78,7 @@ async function loadSchemaAndRelations(type: keyof DatabaseTypeMap): Promise<{ sc
     };
   }
 
-  const { default: worldSchema } = await import('./schema/world/schema.js');
+  const worldSchema = await import('./schema/world/schema.js');
   const { default: worldRelations } = await import('./schema/world/relations.js');
 
   return {
@@ -89,7 +99,7 @@ async function loadSchemaAndRelations(type: keyof DatabaseTypeMap): Promise<{ sc
  * @returns A promise that resolves to a typed `NodePgDatabase` instance.
  */
 export async function createDatabase<T extends keyof DatabaseTypeMap>(
-  { type }: DatabaseArgs<T>,
+  { type, dev = {} }: DatabaseArgs<T>,
 ) {
   const { schema, relations } = await loadSchemaAndRelations(type);
 
@@ -109,9 +119,15 @@ export async function createDatabase<T extends keyof DatabaseTypeMap>(
     }) as unknown as Database<T>;
   }
 
+  const { default: os } = await import('node:os');
   const { drizzle: pgliteDrizzle } = await import('drizzle-orm/pglite');
 
+  const filePath = dev.file ?? `${os.tmpdir()}/data.db`;
+
   const db = pgliteDrizzle({
+    connection: {
+      filename: filePath,
+    },
     schema,
     relations,
   } as any);

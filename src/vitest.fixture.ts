@@ -6,7 +6,7 @@ import { drizzle } from 'drizzle-orm/pglite';
 import { test as baseTest } from 'vitest';
 
 import relations from './relations.js';
-import schema from './schema.js';
+import * as schema from './schema.js';
 
 export const test = baseTest.extend(
   'db',

@@ -1,9 +1,2 @@
-import authSchema from './schema/auth/schema.js';
-import nodeSchema from './schema/node/schema.js';
-import worldSchema from './schema/world/schema.js';
-
-export default {
-  ...nodeSchema,
-  ...worldSchema,
-  ...authSchema,
-};
+export * from './schema/auth/schema.js';
+export * from './schema/world/schema.js';

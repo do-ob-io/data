@@ -1,4 +1,4 @@
-import { defineRelationsPart } from 'drizzle-orm/relations';
+import { defineRelations } from 'drizzle-orm/relations';
 
 import { accountTable } from './account/account-table.js';
 import { jwksTable } from './jwks/jwks-table.js';
@@ -13,9 +13,9 @@ import { verificationTable } from './verification/verification-table.js';
 /**
  * All auth schema relationships defined in a single part so that every
  * `r.many` is paired with its reverse `r.one` (with `from`/`to`) in the same
- * `defineRelationsPart` call, as required by Drizzle ORM v2 beta.
+ * `defineRelations` call, as required by Drizzle ORM v2 beta.
  */
-export default defineRelationsPart(
+export default defineRelations(
   {
     userTable,
     sessionTable,

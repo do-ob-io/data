@@ -1,5 +1,5 @@
 {
-  "name": "data",
+  "name": "@do-ob/data",
   "version": "1.0.0",
   "description": "",
   "scripts": {
@@ -25,6 +25,7 @@
   },
   "exports": {
     ".": "./dist/index.mjs",
+    "./schema/auth": "./dist/schema/auth/index.mjs",
     "./package.json": "./package.json"
   },
   "inlinedDependencies": {
