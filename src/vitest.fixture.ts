@@ -2,16 +2,17 @@
 
 import { PGlite } from '@electric-sql/pglite';
 import { pushSchema } from 'drizzle-kit/api-postgres';
+import type { PgliteDatabase } from 'drizzle-orm/pglite';
 import { drizzle } from 'drizzle-orm/pglite';
 import { test as baseTest } from 'vitest';
 
 import relations from './relations.js';
 import * as schema from './schema.js';
 
-export const test = baseTest.extend(
-  'db',
-  { scope: 'file' },
-  async ({}, { onCleanup }) => {
+type Database = PgliteDatabase<typeof schema>;
+
+export const test = baseTest.extend<{ db: Database }>({
+  db: [ async ({}, use) => {
     const client = new PGlite();
     await client.waitReady;
     const db = drizzle({ client, schema, relations });
@@ -19,10 +20,9 @@ export const test = baseTest.extend(
     const pushed = await pushSchema(schema, db as any);
     await pushed.apply();
 
-    onCleanup(() => db.$client.close());
-
-    return db;
-  },
-);
+    await use(db);
+    await db.$client.close();
+  }, { scope: 'file' } ],
+});
 
 export { describe, it, expect, beforeAll, afterAll } from 'vitest';
