@@ -23,7 +23,7 @@ describe('database', () => {
     `);
     const tableNames = result.rows.map((r) => (r as { table_name: string }).table_name);
 
-    expect(tableNames).toContain('auth_user');
+    expect(tableNames).toContain('user');
 
     await db.$client.end();
   });
