@@ -12,6 +12,7 @@ import * as schema from './schema.js';
 type Database = PgliteDatabase<typeof schema>;
 
 export const test = baseTest.extend<{ db: Database }>({
+  // oxlint-disable-next-line eslint-plugin-react-hooks/rules-of-hooks
   db: [ async ({}, use) => {
     const client = new PGlite();
     await client.waitReady;
