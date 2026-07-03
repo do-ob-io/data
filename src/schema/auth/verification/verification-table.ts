@@ -5,8 +5,6 @@ import { verificationFields } from './verification-fields.js';
 /**
  * Stores short-lived verification tokens (e.g. email verification, password reset).
  */
-export const verificationTable = pgTable(
-  'verification',
-  { ...verificationFields },
-  (table) => [ index('verification_identifier_idx').on(table.identifier) ],
-);
+export const verificationTable = pgTable('verification', { ...verificationFields }, (table) => [
+  index('verification_identifier_idx').on(table.identifier),
+]);

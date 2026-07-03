@@ -1,10 +1,5 @@
 {
   "extends": "./tsconfig.json",
-  "include": [
-    "src/**/*.ts"
-  ],
-  "exclude": [
-    "src/**/*.test.*",
-    "src/vitest.fixture.ts"
-  ]
+  "include": ["src/**/*.ts"],
+  "exclude": ["src/**/*.test.*", "src/vitest.fixture.ts"]
 }

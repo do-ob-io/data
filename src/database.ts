@@ -1,11 +1,13 @@
-import { pushSchema } from 'drizzle-kit/api-postgres';
 import type { NodePgDatabase } from 'drizzle-orm/node-postgres';
 import type { Pool } from 'pg';
+
+import { pushSchema } from 'drizzle-kit/api-postgres';
 
 import type authRelations from './schema/auth/relations.js';
 import type * as authSchema from './schema/auth/schema.js';
 import type worldRelations from './schema/world/relations.js';
 import type * as worldSchema from './schema/world/schema.js';
+
 import { SETTINGS } from './settings.js';
 
 /**
@@ -39,7 +41,8 @@ export interface DatabaseTypeMap {
 /**
  * A database instance for a given type.
  */
-export type Database<T extends keyof DatabaseTypeMap = keyof DatabaseTypeMap> = DatabaseTypeMap[T] & { $client: Pool };
+export type Database<T extends keyof DatabaseTypeMap = keyof DatabaseTypeMap> =
+  DatabaseTypeMap[T] & { $client: Pool };
 
 /**
  * Arguments for initializing a database via {@link createDatabase}.
@@ -67,7 +70,9 @@ export interface DatabaseArgs<T extends keyof DatabaseTypeMap = keyof DatabaseTy
  * @param type - The category of schema to load.
  * @returns An object containing the merged schema tables and relations.
  */
-async function loadSchemaAndRelations(type: keyof DatabaseTypeMap): Promise<{ schema: Record<string, any>; relations: Record<string, any> }> {
+async function loadSchemaAndRelations(
+  type: keyof DatabaseTypeMap,
+): Promise<{ schema: Record<string, any>; relations: Record<string, any> }> {
   if (type === 'auth') {
     const authSchema = await import('./schema/auth/schema.js');
     const { default: authRelations } = await import('./schema/auth/relations.js');
@@ -98,9 +103,10 @@ async function loadSchemaAndRelations(type: keyof DatabaseTypeMap): Promise<{ sc
  * @param args - The arguments for initializing the database.
  * @returns A promise that resolves to a typed `NodePgDatabase` instance.
  */
-export async function createDatabase<T extends keyof DatabaseTypeMap>(
-  { type, dev = {} }: DatabaseArgs<T>,
-) {
+export async function createDatabase<T extends keyof DatabaseTypeMap>({
+  type,
+  dev = {},
+}: DatabaseArgs<T>) {
   const { schema, relations } = await loadSchemaAndRelations(type);
 
   if (SETTINGS.NODE_ENV === 'production') {

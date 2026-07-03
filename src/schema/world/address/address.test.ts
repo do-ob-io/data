@@ -3,10 +3,10 @@ import { getTableName, eq } from 'drizzle-orm';
 import { describe, test } from '@/vitest.fixture.js';
 
 import type { AddressInsert } from './address-models.js';
+
 import { addressTable } from './address-table.js';
 
 describe('address schema', () => {
-
   test('should have the correct table name', async ({ expect }) => {
     expect(getTableName(addressTable)).toBe('world_address');
   });
@@ -26,7 +26,10 @@ describe('address schema', () => {
 
     // Act
     const inserted = await db.insert(addressTable).values(addressInsert).returning();
-    const [ result ] = await db.select().from(addressTable).where(eq(addressTable.id, inserted[0].id));
+    const [result] = await db
+      .select()
+      .from(addressTable)
+      .where(eq(addressTable.id, inserted[0].id));
 
     // Assert
     expect(result).toBeDefined();

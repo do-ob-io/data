@@ -7,13 +7,16 @@ import { organizationTable } from './organization-table.js';
 /**
  * Relationships for the organization table.
  */
-export const organizationRelations = defineRelationsPart({ organizationTable, addressTable }, (r) => ({
-  organizationTable: {
-    address: r.one.addressTable({
-      from: r.organizationTable.addressId,
-      to: r.addressTable.id,
-      optional: true,
-      alias: 'organization_address',
-    }),
-  },
-}));
+export const organizationRelations = defineRelationsPart(
+  { organizationTable, addressTable },
+  (r) => ({
+    organizationTable: {
+      address: r.one.addressTable({
+        from: r.organizationTable.addressId,
+        to: r.addressTable.id,
+        optional: true,
+        alias: 'organization_address',
+      }),
+    },
+  }),
+);

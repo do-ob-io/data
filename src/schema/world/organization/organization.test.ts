@@ -3,10 +3,10 @@ import { eq, getTableName } from 'drizzle-orm';
 import { describe, test } from '@/vitest.fixture.js';
 
 import type { OrganizationInsert } from './organization-models.js';
+
 import { organizationTable } from './organization-table.js';
 
 describe('organization schema', () => {
-
   test('should have the correct table name', async ({ expect }) => {
     expect(getTableName(organizationTable)).toBe('world_organization');
   });
@@ -26,7 +26,10 @@ describe('organization schema', () => {
 
     // Act
     const inserted = await db.insert(organizationTable).values(organizationInsert).returning();
-    const [ result ] = await db.select().from(organizationTable).where(eq(organizationTable.id, inserted[0].id));
+    const [result] = await db
+      .select()
+      .from(organizationTable)
+      .where(eq(organizationTable.id, inserted[0].id));
 
     // Assert
     expect(result).toBeDefined();

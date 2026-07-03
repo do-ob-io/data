@@ -3,10 +3,10 @@ import { getTableName } from 'drizzle-orm';
 import { describe, test } from '@/vitest.fixture.js';
 
 import type { UserInsert } from './user-models.js';
+
 import { userTable } from './user-table.js';
 
 describe('auth user schema', () => {
-
   test('should have the correct table name', async ({ expect }) => {
     expect(getTableName(userTable)).toBe('user');
   });
@@ -33,7 +33,10 @@ describe('auth user schema', () => {
 
   test('should retrieve a user with their sessions', async ({ db, expect }) => {
     // Arrange
-    const inserted = await db.insert(userTable).values({ name: 'Test User', email: 'test@example.com' }).returning();
+    const inserted = await db
+      .insert(userTable)
+      .values({ name: 'Test User', email: 'test@example.com' })
+      .returning();
     const userId = inserted[0].id;
 
     const { sessionTable } = await import('@/schema/auth/session/session-table.js');

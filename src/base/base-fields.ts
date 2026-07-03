@@ -47,5 +47,8 @@ export const baseFields = {
   /**
    * The date and time when the entity was last updated.
    */
-  updatedAt: timestamp({ withTimezone: true }).notNull().defaultNow().$onUpdate(() => new Date()),
+  updatedAt: timestamp({ withTimezone: true })
+    .notNull()
+    .defaultNow()
+    .$onUpdate(() => new Date()),
 };

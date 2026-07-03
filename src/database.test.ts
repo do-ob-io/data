@@ -5,9 +5,7 @@ import { test as fixtureTest } from '@/vitest.fixture.js';
 
 import { createDatabase } from './database.js';
 
-
 describe('database', () => {
-
   fixtureTest('should have a valid database schema', async ({ db, expect }) => {
     const result = await db.execute(sql`SELECT * FROM information_schema.tables`);
     expect(result).toBeDefined();

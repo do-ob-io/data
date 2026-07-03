@@ -3,10 +3,10 @@ import { eq, getTableName } from 'drizzle-orm';
 import { describe, test } from '@/vitest.fixture.js';
 
 import type { JwksInsert } from './jwks-models.js';
+
 import { jwksTable } from './jwks-table.js';
 
 describe('auth jwks schema', () => {
-
   test('should have the correct table name', async ({ expect }) => {
     expect(getTableName(jwksTable)).toBe('jwks');
   });
@@ -21,7 +21,7 @@ describe('auth jwks schema', () => {
 
     // Act
     const inserted = await db.insert(jwksTable).values(jwksInsert).returning();
-    const [ result ] = await db.select().from(jwksTable).where(eq(jwksTable.id, inserted[0].id));
+    const [result] = await db.select().from(jwksTable).where(eq(jwksTable.id, inserted[0].id));
 
     // Assert
     expect(result).toBeDefined();

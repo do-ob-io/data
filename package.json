@@ -2,14 +2,23 @@
   "name": "@do-ob/data",
   "version": "1.0.0",
   "description": "",
+  "keywords": [],
+  "license": "ISC",
+  "author": "",
+  "exports": {
+    ".": "./dist/index.mjs",
+    "./schema/auth": "./dist/schema/auth/index.mjs",
+    "./package.json": "./package.json"
+  },
   "scripts": {
     "build": "tsdown --config ./tsdown.config.ts",
     "test": "vitest run -r ../.. nodejs/data"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "packageManager": "pnpm@10.32.1",
+  "dependencies": {
+    "drizzle-orm": "catalog:data",
+    "pg": "catalog:data",
+    "zod": "catalog:data"
+  },
   "devDependencies": {
     "@electric-sql/pglite": "catalog:data",
     "@types/pg": "catalog:data",
@@ -18,18 +27,9 @@
     "tsdown": "catalog:vite",
     "vitest": "catalog:vite"
   },
-  "dependencies": {
-    "drizzle-orm": "catalog:data",
-    "pg": "catalog:data",
-    "zod": "catalog:data"
-  },
-  "exports": {
-    ".": "./dist/index.mjs",
-    "./schema/auth": "./dist/schema/auth/index.mjs",
-    "./package.json": "./package.json"
-  },
+  "packageManager": "pnpm@10.32.1",
   "inlinedDependencies": {
-    "@electric-sql/pglite": "0.4.3",
+    "@electric-sql/pglite": "0.5.3",
     "drizzle-kit": "1.0.0-beta.20"
   }
 }

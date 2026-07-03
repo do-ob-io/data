@@ -1,5 +1,6 @@
-import { createInsertSchema, createSelectSchema, createUpdateSchema } from 'drizzle-orm/zod';
 import type { z } from 'zod';
+
+import { createInsertSchema, createSelectSchema, createUpdateSchema } from 'drizzle-orm/zod';
 
 import { oauthRefreshTokenTable } from './oauth-refresh-token-table.js';
 

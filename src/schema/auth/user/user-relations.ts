@@ -13,7 +13,15 @@ import { userTable } from './user-table.js';
  * Relationships for the auth user table.
  */
 export const userRelations = defineRelationsPart(
-  { userTable, sessionTable, accountTable, oauthClientTable, oauthRefreshTokenTable, oauthAccessTokenTable, oauthConsentTable },
+  {
+    userTable,
+    sessionTable,
+    accountTable,
+    oauthClientTable,
+    oauthRefreshTokenTable,
+    oauthAccessTokenTable,
+    oauthConsentTable,
+  },
   (r) => ({
     userTable: {
       sessions: r.many.sessionTable({ alias: 'session_user' }),
